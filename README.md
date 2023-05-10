@@ -29,9 +29,7 @@ usando o _DoeAção_ como veículo de ajuda e comunicação.
     - [Back-end](#back-end)
     - [Cloud](#cloud)
   - [Autores](#autores)
-- [Estrutura do Trabalho Escrito](#estrutura-do-trabalho-escrito)
-  - [1ª Entrega do projeto](#1ª-entrega-do-projeto)
-  - [2ª Entrega do projeto](#2ª-entrega-do-projeto)
+- [Trabalho Escrito](#trabalho-escrito)
 
 
 <!-- Features -->
@@ -166,28 +164,6 @@ Para o desenvolvimento foram utilizadas as seguintes tecnologias:
 
 
 
-# Estrutura do Trabalho Escrito
+# Trabalho Escrito
 
 - [Link Trabalho escrito .pdf](https://github.com/edukobilinski/pi-senac-5p-grupo-09/blob/master/Grupo%2009%20-%20PI%20parte%202.pdf)
-
-
-
-## 1ª Entrega do projeto
-
-**Planejamento**
-
-- Ciclo de vida do projeto
-- Requisitos
-- Planejamento
-
-
-## 2ª Entrega do projeto
-
-**Desenvolvimento**
-
-- Arquitetura da solução de software
-- Implementação do webservice e dos serviços disponíveis
-- Projeto do modelo de dados
-- Implementação do webservice
-- Implementação do frontend
-- Implementação do uso de computação em nuvem
