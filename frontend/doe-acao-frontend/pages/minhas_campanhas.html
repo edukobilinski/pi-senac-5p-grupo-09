@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Roboto&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>DoeAção</title>
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar">
+        <a class="navbar-brand" href="/pages/home.html">
+            <p>Doe<br>Ação</p>
+        </a>
+
+        <button class="navbar-toggler first-button" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent20" aria-controls="navbarSupportedContent20" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <div class="animated-icon1"><span></span><span></span><span></span></div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent20">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/pages/cadastro_campanha.html" style="color: white;"><i
+                            class="fa-solid fa-calendar"></i>Criar Campanha</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/minhas_campanhas.html" style="color: white;"><i
+                            class="fa-solid fa-box"></i>Minhas Campanhas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i
+                            class="fa-solid fa-address-card"></i>Informações Pessoais</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i class="fa-solid fa-gift"></i>Doe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i class="fa-solid fa-building"></i>Sobre Nós</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i class="fa-solid fa-landmark"></i>Política e
+                        Taxas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i
+                            class="fa-solid fa-circle-question"></i>FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i class="fa-solid fa-briefcase"></i>Trabalhe
+                        Conosco</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;"><i class="fa-solid fa-lock"></i>Alterar Senha</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.html" style="color: white;"><i onclick="clearCache()"
+                            class="fa-solid fa-circle-arrow-left"></i>Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--Navbar-->
+
+
+    <h1 class="titulo-pagina">Minhas Campanhas</h1>
+
+    <div class="campanhas">
+        <script>
+            function getCampaigns() {
+                var xmlHttp = new XMLHttpRequest();
+                var currentIdUser = JSON.parse(localStorage.getItem('id_user'))
+                xmlHttp.open("GET", `https://app-doeacao.herokuapp.com/doeacao/campaigns/user/${currentIdUser}`, false); // false for synchronous request
+                xmlHttp.send(null);
+                return xmlHttp.responseText;
+            }
+
+            document.body.onload = adcElemento;
+
+            function adcElemento() {
+                console.log(localStorage.getItem('id_user'))
+                var campaigns = JSON.parse(getCampaigns());
+                var arrayLength = campaigns.length;
+
+                for (var i = 0; i < arrayLength; i++) {
+                    campaingId = campaigns[i]["id"]
+                    $(".campanhas").append(`<div id="campanha${campaingId}" class="campanha"><a onclick="saveCampaingId(this.id)" id="${campaingId}" style="text-decoration:none; color: inherit;" href="/pages/pagina_campanha.html"><img class="img-campanha" id="img-campanha${campaingId}" src=""><p class="titulo-campanha" id="titulo-campanha${campaingId}"></p><p class="valor-campanha" id="valor-campanha${campaingId}"></p></a></div><hr class="dotted">`);
+                    document.getElementById(`titulo-campanha${campaingId}`).innerHTML = campaigns[i]["name_campaign"];
+                    var target_value = campaigns[i]["target_value"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+                    document.getElementById(`valor-campanha${campaingId}`).innerHTML = target_value;
+                    document.getElementById(`img-campanha${campaingId}`).src = campaigns[i]["url_image"];
+                }
+            }
+
+            function saveCampaingId(id) {
+                localStorage.setItem("current_campaign_id", JSON.stringify(id))
+            }
+        </script>
+    </div>
+
+    <!--Formulário Campanha-->
+    <form class="container px-4 p-2" action="">
+        <a class="cancelar" href="/pages/home.html">Voltar</button>
+    </form>
+    <!--Formulário Campanha-->
+
+
+    <!--Scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="/javascript/scripts.js"></script>
+    <script src="https://kit.fontawesome.com/e04a0ccd25.js" crossorigin="anonymous"></script>
+    <!--Scripts-->
+</body>
+
+</html>

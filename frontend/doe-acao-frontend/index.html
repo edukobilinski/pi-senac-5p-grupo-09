@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Roboto&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>DoeAção</title>
+</head>
+
+<body>
+    <div class="d-flex flex-column justify-content-center align-items-center min-vh-100 min-vw-100">
+        <div class="p-2 mt-5">
+            <div class="nome-site">DoeAção</div>
+        </div>
+
+        <form id="login-form" class="container px-4 p-2 " action="">
+            <div class="row p-1">
+                <input class="input-default col" id="email" type="email" placeholder="E-mail" required>
+            </div>
+            <div class="row p-1">
+                <input class="input-default col" id="password" class="col" type="password" placeholder="Senha" required>
+            </div>
+            <a class="link-default esqueceu-senha" href="#">Esqueceu sua senha?</a>
+            <div class="row p-1">
+                <button formaction="/pages/home.html" type="submit" class="button-default col">Entrar</button>
+            </div>
+        </form>
+        <a class="link-default sem-conta" href="/pages/cadastro_usuario.html">Não tem uma conta?</a>
+    </div>
+
+
+    <!--Scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function getUsers() {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", 'https://app-doeacao.herokuapp.com/doeacao/users', false);
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+
+        function getUserId() {
+            var users = JSON.parse(getUsers());
+            var arrayLength = users.length;
+            var currentUserEmail = document.getElementById("email").value;
+
+            for (var i = 0; i < arrayLength; i++) {
+                if (users[i]["email"] == currentUserEmail) {
+                    localStorage.setItem("id_user", JSON.stringify(users[i]["id"]))
+                    return users[i]["id"];
+                }
+            }
+
+            alert("Usuário não cadastrado.");
+            return false;
+        }
+
+        function checkPassword(currentUserId) {
+            var currentUserPassword = document.getElementById("password").value;
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "https://app-doeacao.herokuapp.com/doeacao/users/login", false);
+            xmlHttp.setRequestHeader("x-doeacao-id", currentUserId);
+            xmlHttp.setRequestHeader("x-doeacao-password", currentUserPassword);
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+
+        $('#login-form').on('submit', function (event) {
+            localStorage.setItem("user_email", JSON.stringify(document.getElementById("email").value))
+            var currentUserId = getUserId();
+            console.log(currentUserId)
+
+            if (currentUserId == false) {
+                return false;
+
+            } else {
+                var checkPasswordResult = JSON.parse(checkPassword(currentUserId));
+
+                if (checkPasswordResult["active"] == true) {
+                    window.location.href = "/pages/home.html";
+
+                } else {
+                    alert("Senha incorreta.");
+                    return false;
+                }
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="/javascript/scripts.js"></script>
+    <script src="https://kit.fontawesome.com/e04a0ccd25.js" crossorigin="anonymous"></script>
+    <!--Scripts-->
+</body>
+
+</html>
